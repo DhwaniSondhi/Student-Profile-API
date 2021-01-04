@@ -1,5 +1,5 @@
 # Student-Profile-API
-This API was created to learn and practice the basics of [spring-rest-service](https://spring.io/guides/gs/rest-service/). It uses an XML-based configuration.
+This API was created to learn and practice the basics of [spring-rest-service](https://spring.io/guides/gs/rest-service/). It uses an annotation-based configuration.
 This API allows to see the information of all students or a specific one, add, edit, and delete a student. 
 It has an embedded Tomcat configured in [pom.xml](https://github.com/DhwaniSondhi/Student-Profile-API/blob/master/pom.xml).
 This API is tested using [Postman](https://www.postman.com/).

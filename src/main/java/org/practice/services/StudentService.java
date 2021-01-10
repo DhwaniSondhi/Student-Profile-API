@@ -1,35 +1,55 @@
 package org.practice.services;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import org.practice.dao.StudentJDBCTemplate;
 import org.practice.models.Student;
-import org.springframework.stereotype.Component;
+import org.practice.services.customexceptions.DuplicateKeyException;
+import org.practice.services.customexceptions.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@Service
 public class StudentService {
 
-	private HashMap<String, Student> students;
+	@Autowired
+	private StudentJDBCTemplate studentJDBCTemplate;
+	
+	public StudentJDBCTemplate getStudentJDBCTemplate() {
+		return studentJDBCTemplate;
+	}
 
-	public void setStudents(HashMap<String, Student> students) {
-		this.students = students;
+	public void setStudentJDBCTemplate(StudentJDBCTemplate studentJDBCTemplate) {
+		this.studentJDBCTemplate = studentJDBCTemplate;
 	}
 
 	public List<Student> getStudents() {
-		return new ArrayList<Student>(this.students.values());
+		return this.studentJDBCTemplate.getAllStudents();		
 	}
 
 	public Student getStudent(String id) {
-		return this.students.get(id);
+		try {
+			return this.studentJDBCTemplate.getStudent(id);
+		}catch(EmptyResultDataAccessException exp) {
+			throw new NotFoundException("Student with id:"+id+" not found!");
+		}
 	}
-
-	public Student addStudent(Student student) {
-		this.students.put(student.getId(), student);
+	
+	//https://stackoverflow.com/questions/27776919/transaction-rollback-after-catching-exception
+	@Transactional(rollbackFor=Exception.class)
+	public Student createStudent(Student student) {
+		try {
+			this.studentJDBCTemplate.createStudent(student);
+		}catch(DataIntegrityViolationException exp) {
+			throw new DuplicateKeyException("User with id:"+student.getId()+" already exists!");
+		}
 		return this.getStudent(student.getId());
 	}
 
-	public Student editStudent(String id, Student student) {
+/*	public Student editStudent(String id, Student student) {
 		student.setId(id);
 		this.students.put(id, student);
 		return this.getStudent(id);
@@ -37,5 +57,5 @@ public class StudentService {
 
 	public void deleteStudent(String id) {
 		this.students.remove(id);
-	}
+	}*/
 }

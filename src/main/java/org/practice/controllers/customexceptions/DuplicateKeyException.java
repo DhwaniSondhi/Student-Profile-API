@@ -1,4 +1,4 @@
-package org.practice.services.customexceptions;
+package org.practice.controllers.customexceptions;
 
 public class DuplicateKeyException extends RuntimeException {
 

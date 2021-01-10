@@ -2,10 +2,10 @@ package org.practice.services;
 
 import java.util.List;
 
+import org.practice.controllers.customexceptions.DuplicateKeyException;
+import org.practice.controllers.customexceptions.NotFoundException;
 import org.practice.dao.StudentJDBCTemplate;
 import org.practice.models.Student;
-import org.practice.services.customexceptions.DuplicateKeyException;
-import org.practice.services.customexceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;

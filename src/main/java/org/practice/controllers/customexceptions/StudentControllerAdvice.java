@@ -1,10 +1,8 @@
-package org.practice.controllers;
+package org.practice.controllers.customexceptions;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.practice.services.customexceptions.DuplicateKeyException;
-import org.practice.services.customexceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
